@@ -4,6 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Products</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+
 </head>
 <body>
 
@@ -62,16 +64,48 @@
         console.log("---------------------")
         console.log("PART 1...")
 
+        console.log("A. Total number of products: " + products.length)
+        console.log("B. Product details:")
 
+        for (var i = 0; i < products.length; i++) {
+            console.log("Product " + (i + 1) + ": " + products[i].name + ", Price: $" + products[i].price)
+        }
 
+        var matchingProducts = products.filter(function(product) {
+            return product.price < 50;
+        });
+        console.log(matchingProducts.length + " products less than $50 found.")
 
 
 
         console.log("---------------------")
         console.log("PART 2...")
 
+        var displayProducts = d3.select("#display-products")
+        
+        function createProductDiv(product) {
+            var productDiv = displayProducts.append("div")
+                .attr("class", "product")
 
+            productDiv.append("p")
+                .text(product.name)
 
+            productDiv.append("p")
+                .text(product.description)
+
+            productDiv.append("p")
+                .text("$" + product.price.toFixed(2))
+
+            productDiv.append("img")
+                .attr("src", product.imageURL)
+                .attr("alt", product.name)
+
+            productDiv.append("hr")
+        }
+
+        products.forEach(function(product) {
+            createProductDiv(product)
+        })
 
     </script>
 </body>

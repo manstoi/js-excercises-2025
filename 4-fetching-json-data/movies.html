@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="wIdth=device-wIdth, initial-scale=1.0">
     <title>Harry Potter Movies (JSON)</title>
 </head>
 <body>
@@ -23,10 +23,10 @@
         Log each of the answers to the console.
 
         <ol type="A">
-            <li>Fetch the movie data using the provided URL.</li>
+            <li>Fetch the movie data using the provIded URL.</li>
             <li>Display the number of movies (i.e. 8).</li>
             <li>Loop through the movies, and display the title and year of each.</li>
-            <li>Perform a sorting operation to identify the movie that has the highest rating.
+            <li>Perform a sorting operation to Identify the movie that has the highest rating.
                 Display the name and rating of that movie.
             </li>
         </ol>
@@ -40,12 +40,12 @@
     </p>
 
     <ol type="A">
-        <li>See the provided a movie selector dropdown menu (i.e the designated <code>select</code> element).
+        <li>See the provIded a movie selector dropdown menu (i.e the designated <code>select</code> element).
             Loop through the movies and dynamically create a new <code>option</code> element for each movie.
-            Use the movie's identifier as the option value, and the movie's title as the option text.
+            Use the movie's Identifier as the option value, and the movie's title as the option text.
         </li>
         <li>Create a function called <code>updateMovieInfo</code>.
-            It should identify what movie is currently selected from the dropdown menu,
+            It should Identify what movie is currently selected from the dropdown menu,
             then lookup the corresponding movie information using a find operation,
             and finally display information about that movie in the designated areas below.
             Specifically it should display the movie title, year, rating, and an image of the movie poster.
@@ -60,15 +60,15 @@
     <hr>
     <h2>Display</h2>
 
-    <select id="select-movie" name="movie">
+    <select Id="select-movie" name="movie">
         <option value="N/A">Select a Movie</option>
     </select>
-    <div id="display-movie">
-        <p>Title: <span id="display-title">TODO</span></p>
-        <p>Year: <span id="display-year">TODO</span></p>
-        <p>Rating: <span id="display-rating">X</span> / 10</p>
+    <div Id="display-movie">
+        <p>Title: <span Id="display-title">TODO</span></p>
+        <p>Year: <span Id="display-year">TODO</span></p>
+        <p>Rating: <span Id="display-rating">X</span> / 10</p>
         <p>Thumbnail Image:</p>
-        <div id="image-container"></div>
+        <div Id="image-container"></div>
     </div>
 
 
@@ -78,24 +78,73 @@
 
         var requestUrl = "https://raw.githubusercontent.com/prof-rossetti/internet-technologies/refs/heads/main/data/hp-movies.json"
 
+
+        
+        
         fetch(requestUrl).then(response => response.json())
             .then(function(data){
                 console.log("DATA", data)
-
 
                 console.log("---------------------")
                 console.log("PART 1...")
 
 
+                console.log("B)")
+                console.log("Number of movies:", data.length)
 
+                console.log("C)")
+                data.forEach(function(movie){
+                    console.log("------")
+                    console.log(movie.Title, movie.Year)
+                })
 
+                console.log("D)")
+                // Sort the movies by rating
+                data.sort(function(a, b){
+                    return d3.descending(a.Rating, b.Rating)
+                })
 
+                console.log("The movie with the highest rating is " + data[0].Title + " with a rating of " + data[0].Rating)
 
                 console.log("---------------------")
                 console.log("PART 2...")
 
+                var selectMovie = document.getElementById("select-movie")
+
+                data.forEach(function(movie){
+                    var option = document.createElement("option")
+                    option.value = movie.Id
+                    option.textContent = movie.Title
+                    selectMovie.appendChild(option)
+                })
 
 
+                selectMovie.addEventListener("change", function(){
+                    updateMovieInfo()
+                })
+
+                function updateMovieInfo(){
+                    var selectedMovieId = selectMovie.value
+                    var selectedMovie = data.find(function(movie){
+                        return movie.Id == selectedMovieId
+                    })
+
+                    console.log("Selected Movie:", selectedMovie)
+
+                    document.getElementById("display-title").textContent = selectedMovie.Title
+                    document.getElementById("display-year").textContent = selectedMovie.Year
+                    document.getElementById("display-rating").textContent = selectedMovie.Rating
+
+                    var imageContainer = document.getElementById("image-container")
+                    imageContainer.innerHTML = "" // Clear previous image
+
+                    var img = document.createElement("img")
+                    img.src = selectedMovie["Thumbnail Image URL"]
+                    imageContainer.appendChild(img)
+
+                }
+                
+                updateMovieInfo()
 
 
             })

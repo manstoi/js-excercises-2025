@@ -64,7 +64,10 @@
         console.log("---------------------")
         console.log("PART 1...")
 
-
+        celsius = -270
+        fahrenheit = (9/5) * celsius + 32
+        console.log("Celsius: " + celsius + "°C")
+        console.log("Fahrenheit: " + fahrenheit + "°F")
 
 
 
@@ -72,14 +75,28 @@
         console.log("PART 2...")
 
 
-
+        function calculateTemp(tempC) {
+            return (9/5) * tempC + 32
+        }
+        var tempC = -270
+        var tempF = calculateTemp(tempC)
+        console.log("Celsius: " + tempC + "°C")
+        console.log("Fahrenheit: " + tempF + "°F")
 
 
 
         console.log("---------------------")
         console.log("PART 3...")
 
+        var inputTempC = document.getElementById("input-temp-c")
+        var displayTempF = document.getElementById("display-temp-f")
+        var button = document.getElementById("calculate")
 
+        button.addEventListener("click", function() {
+            var tempC = parseFloat(inputTempC.value)
+            var tempF = calculateTemp(tempC)
+            displayTempF.innerText = tempF.toFixed(2) + "°F"
+        })
 
 
 

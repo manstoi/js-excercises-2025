@@ -4,6 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Tweets</title>
+    <script src="https://cdn.jsdelivr.net/npm/d3-array@3"></script>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
 
      <style>
         /*
@@ -102,15 +104,66 @@
         console.log("---------------------")
         console.log("PART 1...")
 
+        console.log("A)")
+        console.log("The first tweet was authored by " + tweets[0].user.screen_name)
 
+        console.log("B)")
+        console.log("The users who have tweets that include @sandwoah are:")
+        for (var i = 0; i < tweets.length; i++) {
+            if (tweets[i].full_text.includes("@sandwoah")) {
+                console.log(tweets[i].user.screen_name)
+            }
+        }
 
-
+        console.log("C)")
+        var maxLikes = 0
+        var maxLikesUser = ""
+        for (var i = 0; i < tweets.length; i++) {
+            if (tweets[i].full_text.includes("@sandwoah") && tweets[i].likes_count > maxLikes) {
+                maxLikes = tweets[i].likes_count
+                maxLikesUser = tweets[i].user.screen_name
+            }
+        }
+        console.log("The user with the most likes is " + maxLikesUser)
 
 
         console.log("---------------------")
         console.log("PART 2...")
 
+        console.log("A)")
+        tweets.sort(function(a, b) {
+            return b.likes_count - a.likes_count
+        })
 
+        console.log("B)")
+        var displayTweets = d3.select("#social-feed")
+
+        // Add a header row to the table
+        function createHeaderRow() {
+            var headerRow = displayTweets.append("tr");
+
+            headerRow.append("th").text("Tweet Id");
+            headerRow.append("th").text("Tweet Text");
+            headerRow.append("th").text("User Screen Name");
+            headerRow.append("th").text("User Followers");
+            headerRow.append("th").text("Tweet Likes");
+        }
+
+        function createTweetRow(tweet) {
+            var tweetRow = displayTweets.append("tr")
+
+            tweetRow.append("td").text(tweet.id)
+            tweetRow.append("td").text(tweet.full_text)
+            tweetRow.append("td").text(tweet.user.screen_name)
+            tweetRow.append("td").text(tweet.user.followers)
+            tweetRow.append("td").text(tweet.likes_count)
+        }
+        
+        createHeaderRow()
+
+        tweets.forEach(function(tweet) {
+            createTweetRow(tweet)
+        })
 
 
     </script>

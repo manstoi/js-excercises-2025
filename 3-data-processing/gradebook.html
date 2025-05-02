@@ -64,18 +64,63 @@
         console.log("---------------------")
         console.log("PART 1...")
 
+        console.log("A)")
+        console.log(gradebook.downloadDate)
 
+        console.log("B)")
+        console.log(gradebook["students"].length)
 
+        console.log("C)")
+        gradebook.students.forEach(function(student) {
+            console.log(student.name)
+            console.log(student.finalGrade)
+        })
 
+        console.log("D)")
 
+        var grades = gradebook.students.map(function(student) {
+            return student.finalGrade
+        })
+        console.log(grades)
+        
+        console.log("E)")
+
+        console.log("MEAN: ", d3.mean(grades))
+
+        console.log("F)")
+
+        console.log("MEDIAN: ", d3.median(grades))
 
         console.log("---------------------")
+
+
+
         console.log("PART 2...")
 
+        function addTable() {
+            var table = document.getElementById("display-gradebook")
+            var headerRow = table.insertRow(0)
+            var headerCell1 = headerRow.insertCell(0)
+            var headerCell2 = headerRow.insertCell(1)
+            var headerCell3 = headerRow.insertCell(2)
 
+            headerCell1.innerHTML = "Student ID"
+            headerCell2.innerHTML = "Student Name"
+            headerCell3.innerHTML = "Final Grade"
 
+            for (var i=0; i < gradebook.students.length; i++) {
+                var row = table.insertRow(i+1)
+                var cell1 = row.insertCell(0)
+                var cell2 = row.insertCell(1)
+                var cell3 = row.insertCell(2)
 
+                cell1.innerHTML = gradebook.students[i].studentId
+                cell2.innerHTML = gradebook.students[i].name
+                cell3.innerHTML = gradebook.students[i].finalGrade
+            }
+        }
 
+        addTable()
 
     </script>
 

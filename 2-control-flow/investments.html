@@ -46,6 +46,38 @@
         and display the resulting number of years and actual ending balance on the page.
     </p>
 
+    <label>Initial Balance:</label>
+    <input id="initial-balance" type="number" placeholder="0" value="0"></input>
+
+    <br>
+    <br>
+
+    <label>Desired Ending Balance:</label>
+    <input id="desired-ending-balance" type="number" placeholder="0" value="0"></input>
+
+    <br>
+    <br>
+    
+    <label>Mean:</label>
+    <input id="mean" type="number" placeholder="0" value="0"></input>
+
+    <br>
+    <br>
+
+    <label>Standard Deviation:</label>
+    <input id="standard-deviation" type="number" placeholder="0" value="0"></input>
+
+    <br>
+    <br>
+
+    <button id="calculate">Calculate</button>
+
+    <br>
+    <br>
+
+    <label>Result:</label>
+    <span id="display-result"></span>
+
 
 
     <script src="https://cdn.jsdelivr.net/npm/d3-random@3"></script>
@@ -58,23 +90,68 @@
         console.log("---------------------")
         console.log("PART 1...")
 
+        year = 0
+        var balance = 150000
+
+        while(balance < 1000000) {
+            // annual return
+            year = year + 1
+            balance = balance * 1.08
+            console.log(year, balance)
 
 
+        }
 
+        console.log(year, balance)
 
 
         console.log("---------------------")
         console.log("PART 2...")
 
+        var year = 0
+        var balance = 150000
 
+        var rateGenerator = d3.randomNormal(.08, .15)
+        rateGenerator()
 
+        var balance = 150000
+
+        while(balance < 1000000) {
+            var rate = rateGenerator()
+            year = year + 1
+            balance = balance * (1 + rate)
+            console.log(year, balance)
+
+        }
+
+        console.log(year, balance)
 
 
 
         console.log("---------------------")
         console.log("PART 3...")
 
+        document.getElementById("calculate").addEventListener("click", function () {
 
+            var initialBalance = parseFloat(document.getElementById("initial-balance").value);
+            var desiredEndingBalance = parseFloat(document.getElementById("desired-ending-balance").value);
+            var mean = parseFloat(document.getElementById("mean").value);
+            var standardDeviation = parseFloat(document.getElementById("standard-deviation").value);
+            var displayResult = document.getElementById("display-result");
+
+            // Simulation logic
+            var year = 0;
+            var balance = initialBalance;
+            var rateGenerator = d3.randomNormal(mean, standardDeviation);
+
+            while (initialBalance < desiredEndingBalance) {
+                year++;
+                initialBalance *= 1 + rateGenerator();
+            }
+
+            // Display result
+            displayResult.innerText = `It will take ${year} years to reach $${desiredEndingBalance.toFixed(2)}.`;
+        });
 
 
     </script>

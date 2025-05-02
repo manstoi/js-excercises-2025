@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Groceries (CSV)</title>
+    <script src="https://cdn.jsdelivr.net/npm/d3-array@3"></script>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
 </head>
 <body>
 
@@ -77,22 +79,69 @@
         var requestUrl = "https://raw.githubusercontent.com/prof-rossetti/intro-to-python/main/data/products.csv"
 
         d3.csv(requestUrl).then(function(data) {
-            console.log("DATA:", data)
             var products = data
 
             console.log("---------------------")
             console.log("PART 1...")
 
+            console.log("A)")
+            console.log(products)
 
+            console.log("B) ")
+            console.log(products.length)
 
+            console.log("C)")
+            products.forEach(function(product) {
+                console.log(product.name, formatUSD(parseFloat(product.price)))
+            })
+
+            console.log("D)")
+            var departments = []
+            products.forEach(function(product) {
+                if (!departments.includes(product.department)) {
+                    departments.push(product.department)
+                }
+            })
+            console.log(departments)
+
+            console.log("E)")
+            console.log("Number of unique departments is ", departments.length)
+
+            console.log("F)")
+            departments.forEach(function(department) {
+                console.log(department.toUpperCase())
+            })
+
+            console.log("G)")
+            var beverages = products.filter(function(product) {
+                return product.department === "beverages"
+            })
+
+            console.log("H)")
+            console.log("Number of beverage products is ", beverages.length)
+
+            console.log("I)")
+            var total = 0
+            beverages.forEach(function(product) {
+                total += parseFloat(product.price)
+            })
+            var average = total / beverages.length
+            console.log(formatUSD(average))
 
 
 
             console.log("---------------------")
             console.log("PART 2...")
 
+            products.sort(function(a, b) {
+                return a.name.localeCompare(b.name)
+            })
 
-
+            var displayGroceries = d3.select("#display-groceries")
+            products.forEach(function(product) {
+                var groceryRow = displayGroceries.append("li")
+                groceryRow.text(product.name + " " + formatUSD(parseFloat(product.price)))
+            })
 
 
 

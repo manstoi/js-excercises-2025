@@ -83,7 +83,7 @@
         }
 
 
-
+//key 51W3X1ISPF56U274
 
         var requestUrl = `https://www.alphavantage.co/query?function=MARKET_STATUS&apikey=${apiKey}`
         d3.json(requestUrl).then(function(data) {
@@ -92,14 +92,64 @@
             console.log("---------------------")
             console.log("PART 1...")
 
+            console.log("B)")
+            console.log("The nmber of markets:", data.markets.length)
+
+            console.log("C)")
+            var equityMarkets = data.markets.filter(function(market) {
+                return market.market_type === "Equity"
+            })
+
+            console.log("D)")
+            console.log("The number of equity markets:", equityMarkets.length)
+
+            console.log("E)")
+            equityMarkets.forEach(function(market) {
+                console.log("Market Type:", market.market_type, "Region:", market.region)
+            })
+
+            console.log("F)")
+            var market = equityMarkets.find(function(market) {
+                return market.region === "United States"
+            })
+            console.log(market)
+
+            console.log("G)")  
+            console.log("Market Type:", market.market_type)
+            console.log("Primary Exchanges:", market.primary_exchanges)
+            console.log("Local Open:", market.local_open)
+            console.log("Local Close:", market.local_close)
+            console.log("Current Status:", market.current_status.toUpperCase())
 
 
+            // console.log("---------------------")
+            // console.log("PART 2...")
 
+            var region = market.region
+            var marketType = market.market_type
+            var primaryExchanges = market.primary_exchanges
+            var localOpen = market.local_open
+            var localClose = market.local_close
+            var currentStatus = market.current_status.toUpperCase()
 
-            console.log("---------------------")
-            console.log("PART 2...")
+            var displayRegion = d3.select("#display-region")
+            displayRegion.text(region)
 
+            var displayType = d3.select("#display-type")
+            displayType.text(marketType)
 
+            var displayExchanges = d3.select("#display-exchanges")
+            displayExchanges.text(primaryExchanges)
+
+            var displayOpen = d3.select("#display-open")
+            displayOpen.text(localOpen)
+
+            var displayClose = d3.select("#display-close")
+            displayClose.text(localClose)
+
+            var displayStatus = d3.select("#display-status")
+            displayStatus.text(currentStatus)
+            
 
 
         }).catch(function(error) {

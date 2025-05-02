@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/d3-array@3"></script>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
     <title>Weather Forecast (JSON)</title>
 
     <style>
@@ -36,11 +38,11 @@
         <ol type="A">
             <li>Fetch the weather data using the provided URL.</li>
             <li>Display the date this data was generated (i.e. "2021-06-08").</li>
-            <li>Display the number of periods of available data (i.e. 14).</li>
-            <li>Use a filtering operation to arrive at a subset of the periods that are daytime only (excluding night-time periods),
-                and store them in a variable called <code>daytimePeriods</code>.
+            <li>Display the number of period of available data (i.e. 14).</li>
+            <li>Use a filtering operation to arrive at a subset of the period that are daytime only (excluding night-time period),
+                and store them in a variable called <code>daytimeperiod</code>.
             </li>
-            <li>Display the number of daytime periods (i.e. 7).</li>
+            <li>Display the number of daytime period (i.e. 7).</li>
             <li>For each daytime period, display a human-readable weather forecast on that date, including:
                  the period name, temperature (and temperature unit), and a short or long forecast.
             </li>
@@ -56,7 +58,7 @@
 
     <ol type="A">
         <li>Display the date this data was generated. Use the designated <code>span</code> element.</li>
-        <li>Display a seven day forecast, using the daytime periods only.
+        <li>Display a seven day forecast, using the daytime period only.
             Use the designated <code>table</code> element.
             The table should have four columns ("Period", "Temperature", "Forecast", and "Icon").
             There should be a row for each daytime period.
@@ -90,18 +92,72 @@
                 console.log("---------------------")
                 console.log("PART 1...")
 
+                console.log("A)")
+                console.log(data)
 
+                console.log("B)")
+                console.log(data.properties.updated.split("T")[0])
 
+                console.log("C)")
+                console.log("Number of period:", data.properties.periods.length)
+
+                console.log("D)")
+                var daytimeperiod = data.properties.periods.filter(period => period.isDaytime === true)
+
+                console.log("E)")
+                console.log("Number of daytime period:", daytimeperiod.length)
+
+                console.log("F)")
+                daytimeperiod.forEach(period => {
+                    console.log("Period:", period.name)
+                    console.log("Temperature:", period.temperature, period.temperatureUnit)
+                    console.log("Forecast:", period.shortForecast)
+                })
 
                 console.log("---------------------")
                 console.log("PART 2...")
 
+                console.log("A)")
+                var displayDate = document.getElementById("display-date")
+                displayDate.innerText = data.properties.updated.split("T")[0]
+
+
+                console.log("B)")
+
+                var displayForecast = d3.select("#display-forecast")
+
+                function createHeaderRow() {
+                    var headerRow = displayForecast.append("tr")
+                    headerRow.append("th").text("Period");
+                    headerRow.append("th").text("Temperature");
+                    headerRow.append("th").text("Forecast");
+                    headerRow.append("th").text("Icon");
+
+                }
+                createHeaderRow()
+
+                function createweatherRow(periods) {
+                    var weatherRow = displayForecast.append("tr")
+
+                    weatherRow.append("td").text(data.periods[i].name)
+                    weatherRow.append("td").text(data.periods[i].temperature + degreeSymbol + data.period[i].temperatureUnit)
+                    weatherRow.append("td").text(data.periods[i].shortForecast)
+                    weatherRow.append("td").text(data.periods[i].icon)
+                }
+                
+                daytimeperiod.forEach(function(period) {
+                    var weatherRow = displayForecast.append("tr")
+                    weatherRow.append("td").text(period.name)
+                    weatherRow.append("td").text(period.temperature + degreeSymbol + period.temperatureUnit)
+                    weatherRow.append("td").text(period.shortForecast)
+                    weatherRow.append("td").append("img").attr("src", period.icon).attr("alt", "Weather Icon")
+                })
 
 
 
             })
             .catch(err => console.log(err))
 
-    </script>
-</body>
-</html>
+     </script>
+ </body>
+ </html>

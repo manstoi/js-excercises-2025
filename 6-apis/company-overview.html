@@ -87,9 +87,11 @@
         }
 
 
-
         // FUNCTION DEFINITION
         function lookupCompany() {
+
+            // get the input element:
+            var inputSymbol = d3.select("#input-symbol").node()
             var symbol = inputSymbol.value
             console.log("SYMBOL:", symbol)
 
@@ -100,15 +102,20 @@
                 console.log("---------------------")
                 console.log("PART 1...")
 
-
-
-
+                console.log("NAME:", data.Name)
+                console.log("DESCRIPTION:", data.Description)
+                console.log("WEBSITE:", requestUrl)
 
 
                 console.log("---------------------")
                 console.log("PART 2...")
 
-
+                var displayName = d3.select("#display-name").node()
+                displayName.innerHTML = data.Name
+                var displayDescription = d3.select("#display-description").node()
+                displayDescription.innerHTML = data.Description
+                var displayLink = d3.select("#display-link").node()
+                displayLink.innerHTML = requestUrl
 
 
 
@@ -119,9 +126,12 @@
 
         // FUNCTION INVOCATIONS
         // invoke function when the page loads:
-        //lookupCompany()
+        lookupCompany()
         // invoke function when button is clicked:
-        //lookupButton.addEventListener("click", lookupCompany, false)
+        var lookupButton = d3.select("#lookup").node()
+        lookupButton.addEventListener("click", lookupCompany, false)
+
+        
 
     </script>
 </body>

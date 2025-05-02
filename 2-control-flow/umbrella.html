@@ -71,22 +71,55 @@
         console.log("---------------------")
         console.log("PART 1...")
 
+        var isRaining = true
+        var ownsUmbrella = false
+        console.log("isRaining: " + isRaining)
+        console.log("ownsUmbrella: " + ownsUmbrella)
 
+        if (!isRaining) {
+            console.log("Skies are clear")
+        } else {
+            if (ownsUmbrella) {
+                console.log("Bring your umbrella")
+            } else {
+                console.log("Buy an umbrella")
+            }
+        }
 
 
 
         console.log("---------------------")
         console.log("PART 2...")
 
+        function advice(isRaining, ownsUmbrella) {
+            if (!isRaining) {
+                return "Skies are clear"
+            } else {
+                if (ownsUmbrella) {
+                    return "Bring your umbrella"
+                } else {
+                    return "Buy an umbrella"
+                }
+            }
+        }
 
-
+        console.log(advice(true, false))
+        console.log(advice(true, true))
+        console.log(advice(false, false))
+        console.log(advice(false, true))
 
 
         console.log("---------------------")
         console.log("PART 3...")
 
-
-
+        var button = document.getElementById("advise")
+        button.addEventListener("click", function () {
+            var isRaining = document.getElementById("switch-raining").checked
+            var ownsUmbrella = document.getElementById("switch-umbrella").checked
+            var message = advice(isRaining, ownsUmbrella)
+            console.log(message)
+            document.getElementById("display-message").innerHTML = message
+        })
 
 
     </script>
